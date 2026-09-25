@@ -214,6 +214,10 @@ On Windows PowerShell:
 $env:MOCK_LLM="1"
 ```
 
+## Installation
+
+Install the dependencies listed in the project `requirements.txt`.
+
 ## Running the API
 
 From `support_assistant/`, run:

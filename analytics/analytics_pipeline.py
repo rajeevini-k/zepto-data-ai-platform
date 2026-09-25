@@ -6,7 +6,7 @@ Module 2 — Analytics Pipeline
 Complete reproducible Titanic analytics and machine-learning workflow.
 
 The raw Titanic dataset is loaded exactly once with:
-    sns.load_dataset("titanic")
+    sns.load_dataset('titanic')
 
 The workflow then performs:
 1. Profiling
@@ -110,7 +110,7 @@ def print_section(title):
 
 print_section("1. LOAD TITANIC DATASET")
 
-df = sns.load_dataset("titanic")
+df = sns.load_dataset('titanic')
 
 print("Shape:", df.shape)
 print("Columns:", df.columns.tolist())

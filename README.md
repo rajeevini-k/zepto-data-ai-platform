@@ -358,3 +358,8 @@ The feature branch is intended to be merged into `main` after final repository v
 ## License / Data Note
 
 This repository is an educational capstone implementation. Public practice data and the specified policy corpus are used for the purposes of the assignment.
+
+
+## Installation
+
+Install the dependencies listed in `requirements.txt` before running the modules.

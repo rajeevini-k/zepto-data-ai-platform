@@ -785,3 +785,8 @@ For regression, the Random Forest achieved:
 Residual diagnostics indicated substantial variation in residual spread across predicted-fare ranges, suggesting possible heteroscedasticity.
 
 The complete tuned classification pipeline was persisted with Joblib, successfully reloaded, and verified to produce identical predictions.
+
+
+## Pipeline Reload
+
+The saved joblib pipeline is reloaded and used for prediction to verify that the persisted pipeline can be reused after saving.
