@@ -1,0 +1,114 @@
+ZEPT0 DATA PIPELINE - SQL QUERY OUTPUTS
+======================================================================
+
+QUERY 1 - Book count by category
+----------------------------------------------------------------------
+SQL:
+SELECT c.category_name, COUNT(*) AS book_count
+        FROM books b
+        JOIN categories c
+            ON b.category_id = c.category_id
+        GROUP BY c.category_name
+        ORDER BY book_count DESC;
+
+OUTPUT:
+     category_name  book_count
+    Sequential Art          20
+           Mystery          20
+Historical Fiction          20
+          Classics          19
+            Travel          11
+        Philosophy          11
+
+======================================================================
+
+QUERY 2 - Average price by category
+----------------------------------------------------------------------
+SQL:
+SELECT c.category_name,
+               ROUND(AVG(b.price_inr), 2) AS average_price_inr
+        FROM books b
+        JOIN categories c
+            ON b.category_id = c.category_id
+        GROUP BY c.category_name
+        ORDER BY average_price_inr DESC;
+
+OUTPUT:
+     category_name  average_price_inr
+            Travel            4198.32
+          Classics            3855.53
+Historical Fiction            3732.48
+        Philosophy            3540.39
+    Sequential Art            3473.01
+           Mystery            3459.77
+
+======================================================================
+
+QUERY 3 - Rating distribution
+----------------------------------------------------------------------
+SQL:
+SELECT rating, COUNT(*) AS book_count
+        FROM books
+        GROUP BY rating
+        ORDER BY rating;
+
+OUTPUT:
+ rating  book_count
+      1          24
+      2          24
+      3          18
+      4          22
+      5          13
+
+======================================================================
+
+QUERY 4 - Top 5 most expensive books
+----------------------------------------------------------------------
+SQL:
+SELECT b.title,
+               b.price_gbp,
+               b.price_inr,
+               b.rating,
+               c.category_name
+        FROM books b
+        JOIN categories c
+            ON b.category_id = c.category_id
+        ORDER BY b.price_inr DESC
+        LIMIT 5;
+
+OUTPUT:
+                                       title  price_gbp  price_inr  rating category_name
+               Boar Island (Anna Pigeon #19)      59.48   6275.140       3       Mystery
+                                     Candide      58.63   6185.465       3      Classics
+The Death of Humanity: and the Case for Life      58.11   6130.605       4    Philosophy
+                                 Animal Farm      57.22   6036.710       3      Classics
+            A Year in Provence (Provence #1)      56.88   6000.840       4        Travel
+
+======================================================================
+
+QUERY 5 - Category price aggregation
+----------------------------------------------------------------------
+SQL:
+SELECT c.category_name,
+               COUNT(*) AS book_count,
+               MIN(b.price_inr) AS min_price_inr,
+               MAX(b.price_inr) AS max_price_inr,
+               ROUND(AVG(b.price_inr), 2) AS avg_price_inr
+        FROM books b
+        JOIN categories c
+            ON b.category_id = c.category_id
+        WHERE b.price_inr BETWEEN 1000 AND 7000
+        GROUP BY c.category_name
+        ORDER BY avg_price_inr DESC;
+
+OUTPUT:
+     category_name  book_count  min_price_inr  max_price_inr  avg_price_inr
+            Travel          11       2448.655       6000.840        4198.32
+          Classics          19       1563.510       6185.465        3855.53
+Historical Fiction          20       1753.410       5860.525        3732.48
+        Philosophy          11       1681.670       6130.605        3540.39
+    Sequential Art          20       1071.880       5763.465        3473.01
+           Mystery          20       1127.795       6275.140        3459.77
+
+======================================================================
+
