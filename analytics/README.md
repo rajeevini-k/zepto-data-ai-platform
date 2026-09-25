@@ -492,6 +492,104 @@ analytics/regression_predictions.csv
 
 ---
 
+
+# 13A. Graph Interpretations
+
+The following interpretations summarize the main visual patterns shown in the
+Module 2 charts. The interpretations describe observed patterns in the
+cleaned Titanic dataset and do not imply causal relationships.
+
+## 13A.1 Age Distribution
+
+The age histogram shows that passenger ages are concentrated in the younger
+and middle-age ranges, with fewer observations at older ages. The distribution
+is not perfectly symmetric, so the median and spread are useful alongside the
+mean when describing passenger age.
+
+**Chart:** `analytics/plots/age_distribution.png`
+
+## 13A.2 Age Boxplot
+
+The age boxplot shows the central distribution of passenger ages together
+with observations identified as IQR-based outliers. These outliers were
+retained because an unusual age value is not automatically a data-entry error.
+
+**Chart:** `analytics/plots/age_boxplot.png`
+
+## 13A.3 Fare Distribution
+
+The fare histogram is strongly right-skewed, with many passengers paying
+relatively lower fares and a smaller number paying substantially higher fares.
+This pattern is consistent with the large difference between the mean fare
+(34.7617) and median fare (15.9000).
+
+**Chart:** `analytics/plots/fare_distribution.png`
+
+## 13A.4 Fare Boxplot
+
+The fare boxplot highlights the large upper-tail spread in passenger fares
+and the IQR-based outliers. The 100 observations outside the IQR bounds were
+retained because high fares can represent genuine passenger observations
+rather than data errors.
+
+**Chart:** `analytics/plots/fare_boxplot.png`
+
+## 13A.5 Survival Rate by Sex
+
+The survival-rate chart shows a substantially higher observed survival rate
+among female passengers (73.79%) than male passengers (21.53%) in the cleaned
+dataset. This is an observed association in this dataset and should not be
+interpreted as a causal effect of sex.
+
+**Chart:** `analytics/plots/survival_rate_by_sex.png`
+
+## 13A.6 Survival Rate by Passenger Class
+
+The chart shows that the observed survival rate decreases from first class
+to third class. First-class passengers had a survival rate of 62.98%, while
+third-class passengers had a survival rate of 25.94%.
+
+**Chart:** `analytics/plots/survival_rate_by_pclass.png`
+
+## 13A.7 Survival Rate by Sex and Passenger Class
+
+The combined chart shows substantial differences across both sex and
+passenger class. The highest observed survival rate was for female
+first-class passengers (96.70%), while male third-class passengers had the
+lowest observed survival rate among the displayed groups (16.06%).
+
+**Chart:** `analytics/plots/survival_rate_by_sex_and_pclass.png`
+
+## 13A.8 Correlation Heatmap
+
+The correlation heatmap shows that `pclass` and `fare` have the strongest
+absolute correlation among the required six variables, with a correlation
+of -0.5535. `pclass` also has a negative correlation with `survived`
+(-0.3470), while `fare` has a positive correlation with `survived` (0.2641);
+these are associations rather than evidence of causation.
+
+**Chart:** `analytics/plots/correlation_heatmap.png`
+
+## 13A.9 Classification ROC Curves
+
+The ROC curves compare the ability of the classification models to separate
+survived and non-survived passengers across classification thresholds.
+Curves that remain closer to the upper-left region indicate stronger
+discrimination on the evaluation data, while the diagonal represents
+approximately random discrimination.
+
+**Chart:** `analytics/plots/classification_roc_curves.png`
+
+## 13A.10 Regression Residual Plot
+
+The residual plot shows a substantially larger spread of residuals at higher
+predicted fare values. The calculated residual-spread ratio was 28.9063,
+which suggests possible heteroscedasticity in the multivariate linear
+regression residuals.
+
+**Chart:** `analytics/plots/fare_regression_residuals.png`
+
+
 # 14. Final Model Comparison
 
 The complete classification comparison is stored in:
