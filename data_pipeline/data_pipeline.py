@@ -441,6 +441,131 @@ def validate_database(conn):
 # MAIN
 # ============================================================
 
+
+def validate_sql_join_with_pandas_merge(conn, books_df):
+    """
+    Reproduce the normalized SQL JOIN using pandas.merge()
+    and verify that both approaches return equivalent data.
+    """
+
+    sql_join = pd.read_sql(
+        """
+        SELECT
+            b.book_id,
+            b.title,
+            b.price_gbp,
+            b.price_inr,
+            b.rating,
+            b.in_stock,
+            b.category_id,
+            c.category_name
+        FROM books b
+        JOIN categories c
+            ON b.category_id = c.category_id
+        ORDER BY b.book_id
+        """,
+        conn
+    )
+
+    categories_df = pd.read_sql(
+        """
+        SELECT
+            category_id,
+            category_name
+        FROM categories
+        ORDER BY category_id
+        """,
+        conn
+    )
+
+    books_for_merge = books_df.copy()
+
+    # Add the database book_id values in the same deterministic order.
+    books_for_merge.insert(
+        0,
+        "book_id",
+        range(1, len(books_for_merge) + 1)
+    )
+
+    pandas_merge = pd.merge(
+        books_for_merge[
+            [
+                "book_id",
+                "title",
+                "price_gbp",
+                "price_inr",
+                "rating",
+                "in_stock"
+            ]
+        ],
+        books_for_merge.assign(
+            category_id=books_for_merge["category"].map(
+                dict(
+                    zip(
+                        categories_df["category_name"],
+                        categories_df["category_id"]
+                    )
+                )
+            )
+        )[
+            ["book_id", "category_id", "category"]
+        ],
+        on="book_id",
+        how="inner"
+    )
+
+    pandas_merge = pandas_merge[
+        [
+            "book_id",
+            "title",
+            "price_gbp",
+            "price_inr",
+            "rating",
+            "in_stock",
+            "category_id",
+            "category"
+        ]
+    ].rename(columns={"category": "category_name"})
+
+    pandas_merge = pandas_merge.sort_values(
+        "book_id"
+    ).reset_index(drop=True)
+
+    sql_join = sql_join.sort_values(
+        "book_id"
+    ).reset_index(drop=True)
+
+    same_shape = sql_join.shape == pandas_merge.shape
+
+    same_columns = list(sql_join.columns) == list(
+        pandas_merge.columns
+    )
+
+    if same_shape and same_columns:
+        sql_compare = sql_join.copy()
+        pandas_compare = pandas_merge.copy()
+
+        sql_compare["in_stock"] = sql_compare["in_stock"].astype(int)
+        pandas_compare["in_stock"] = pandas_compare["in_stock"].astype(int)
+
+        same_values = sql_compare.equals(pandas_compare)
+    else:
+        same_values = False
+
+    print("\n===================================")
+    print("SQL JOIN VS PANDAS MERGE")
+    print("===================================")
+    print("SQL JOIN shape:", sql_join.shape)
+    print("Pandas merge shape:", pandas_merge.shape)
+    print("Same shape:", same_shape)
+    print("Same columns:", same_columns)
+    print("Same values:", same_values)
+    print("Overall SQL JOIN == pandas merge:", same_shape and same_columns and same_values)
+
+    return same_shape and same_columns and same_values
+
+
+
 def main():
 
     print("===================================")
@@ -477,6 +602,12 @@ def main():
 
         # Validate
         validate_database(conn)
+
+        # Validate SQL JOIN against pandas merge
+        validate_sql_join_with_pandas_merge(
+            conn,
+            clean_df
+        )
 
     finally:
 

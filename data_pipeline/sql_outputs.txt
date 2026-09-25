@@ -1,82 +1,142 @@
-ZEPT0 DATA PIPELINE - SQL QUERY OUTPUTS
-======================================================================
+================================================================================
+ZEPTO DATA PIPELINE — SQL QUERY OUTPUTS
+================================================================================
 
-QUERY 1 - Book count by category
-----------------------------------------------------------------------
-SQL:
-SELECT c.category_name, COUNT(*) AS book_count
-        FROM books b
-        JOIN categories c
-            ON b.category_id = c.category_id
-        GROUP BY c.category_name
-        ORDER BY book_count DESC;
 
-OUTPUT:
-     category_name  book_count
-    Sequential Art          20
-           Mystery          20
-Historical Fiction          20
-          Classics          19
-            Travel          11
-        Philosophy          11
+================================================================================
+Query 1
+================================================================================
+SELECT DISTINCT
+    category_name
+FROM categories
+ORDER BY category_name;
 
-======================================================================
+--- RESULT ---
+     category_name
+          Classics
+Historical Fiction
+           Mystery
+        Philosophy
+    Sequential Art
+            Travel
 
-QUERY 2 - Average price by category
-----------------------------------------------------------------------
-SQL:
-SELECT c.category_name,
-               ROUND(AVG(b.price_inr), 2) AS average_price_inr
-        FROM books b
-        JOIN categories c
-            ON b.category_id = c.category_id
-        GROUP BY c.category_name
-        ORDER BY average_price_inr DESC;
 
-OUTPUT:
-     category_name  average_price_inr
-            Travel            4198.32
-          Classics            3855.53
-Historical Fiction            3732.48
-        Philosophy            3540.39
-    Sequential Art            3473.01
-           Mystery            3459.77
+================================================================================
+Query 2
+================================================================================
+SELECT
+    title,
+    price_gbp,
+    price_inr,
+    rating,
+    in_stock
+FROM books
+WHERE price_inr BETWEEN 2000 AND 5000
+ORDER BY price_inr DESC;
 
-======================================================================
+--- RESULT ---
+                                                                                                                                                                                                       title  price_gbp  price_inr  rating  in_stock
+                                                                                                                                                           Kierkegaard: A Christian Missionary to Christians      47.13   4972.215       1         1
+                                                                                                                                                                                             Of Mice and Men      47.11   4970.105       2         1
+                                                                                                                                               Lumberjanes, Vol. 2: Friendship to the Max (Lumberjanes #5-8)      46.91   4949.005       2         1
+                                                                                                                                                                                       Girl in the Blue Coat      46.83   4940.565       2         1
+                                                                                                                                                             Glory over Everything: Beyond The Kitchen House      45.84   4836.120       3         1
+                                                                                                                                              Lumberjanes, Vol. 1: Beware the Kitten Holy (Lumberjanes #1-4)      45.61   4811.855       3         1
+                                                                                                                                                                                           The Little Prince      45.42   4791.810       2         1
+                                                                                                                                                                                     It's Only the Himalayas      45.17   4765.435       2         1
+                                                                                                                                                                                          A Summer In Europe      44.34   4677.870       2         1
+                                                                                                                                                             The Murder of Roger Ackroyd (Hercule Poirot #4)      44.10   4652.550       4         1
+                                                                                                                                                                                        Beyond Good and Evil      43.38   4576.590       1         1
+                                                                                                                                                                                   The Story of Hong Gildong      43.19   4556.545       4         1
+                                                                                                                                                                                           A Paris Apartment      39.01   4115.555       4         1
+                                                                                                                                                                   Neither Here nor There: Travels in Europe      38.95   4109.225       3         1
+                                                                                                                                                                                                     Beowulf      38.35   4045.925       2         1
+                                                                                                                                                                    The Nameless City (The Nameless City #1)      38.16   4025.880       4         1
+                                                                                                                                                                                       Sense and Sensibility      37.46   3952.030       1         1
+                                                                                                                                                                                      The Invention of Wings      37.34   3939.370       1         1
+                                                                                                                                                                                        Under the Tuscan Sun      37.33   3938.315       3         1
+                                                                                                                                                                                       The House by the Lake      36.95   3898.225       1         1
+                                                                                                                                         Vagabonding: An Uncommon Guide to the Art of Long-Term World Travel      36.94   3897.170       2         1
+                                                                                                                                                         Codename Baboushka, Volume 1: The Conclave of Death      36.72   3873.960       4         1
+                                                                                                                                                                                      The Nicomachean Ethics      36.34   3833.870       1         1
+                                                                                                                                                                                                The Red Tent      35.66   3762.130       5         1
+                                                                                                                                                                                                 Most Wanted      35.28   3722.040       3         1
+                                                                                                                                                                                    And Then There Were None      35.01   3693.555       2         1
+                                                                                                                                                             World Without End (The Pillars of the Earth #2)      32.97   3478.335       4         1
+                                                                                                                                                                                                        Emma      32.93   3474.115       2         1
+                                                                                                                                                                                          Gone with the Wind      32.49   3427.695       3         1
+                                                                                                                                                                                    The Great Railway Bazaar      30.54   3221.970       1         1
+                                                                                                                                                                                                Mrs. Houdini      30.25   3191.375       5         1
+At The Existentialist Café: Freedom, Being, and apricot cocktails with: Jean-Paul Sartre, Simone de Beauvoir, Albert Camus, Martin Heidegger, Edmund Husserl, Karl Jaspers, Maurice Merleau-Ponty and others      29.93   3157.615       5         1
+                                                                                                                                                                                  The Picture of Dorian Gray      29.70   3133.350       2         1
+                                                                                                                                   Forever and Forever: The Courtship of Henry Longfellow and Fanny Appleton      29.69   3132.295       3         1
+                                                                                                                           I Hate Fairyland, Vol. 1: Madly Ever After (I Hate Fairyland (Compilations) #1-5)      29.17   3077.435       2         1
+                                                                                                                                                                                           The Metamorphosis      28.58   3015.190       1         1
+                                                                                                                                                                                       The Passion of Dolssa      28.32   2987.760       5         1
+                                                                                                                                                                                   The Marriage of Opposites      28.08   2962.440       4         1
+                                                                                                                                                                              Little Women (Little Women #1)      28.07   2961.385       4         1
+                                                                                                                                                                                                   The Widow      27.26   2875.930       2         1
+                                                                                                                                                                            Poisonous (Max Revere Novels #3)      26.80   2827.400       3         1
+                                                                                                                               The Complete Stories and Poems (The Works of Edgar Allan Poe [Cameo Edition])      26.78   2825.290       4         1
+                                                                                                                                                                                   Girl With a Pearl Earring      26.77   2824.235       1         1
+                                                                                                                                                                          1,000 Places to See Before You Die      26.08   2751.440       5         1
+                                                                                                                                                                                                 Meditations      25.89   2731.395       2         1
+                                                                                                                                           What Happened on Beale Street (Secrets of the South Mysteries #2)      25.37   2676.535       5         1
+                                                                                                           The Road to Little Dribbling: Adventures of an American in Britain (Notes From a Small Island #2)      23.21   2448.655       1         1
+                                                                                                                                                                        Giant Days, Vol. 2 (Giant Days #5-8)      22.11   2332.605       2         1
+                                                                                                                                                                                      Voyager (Outlander #3)      21.07   2222.885       5         1
+                                                                                                                                                            Delivering the Truth (Quaker Midwife Mystery #1)      20.89   2203.895       4         1
+                                                                                                                                                                                     Critique of Pure Reason      20.75   2189.125       1         1
+                                                                                                                                                                                        Love, Lies and Spies      20.55   2168.025       2         1
+                                                                                                                                                                  Run, Spot, Run: The Ethics of Keeping Pets      20.02   2112.110       1         1
+                                                                                                                                                     Lumberjanes Vol. 3: A Terrible Plan (Lumberjanes #9-12)      19.92   2101.560       2         1
+                                                                                                                                                                                        In a Dark, Dark Wood      19.63   2070.965       1         1
+                                                                                                                                                                                             This One Summer      19.49   2056.195       4         1
+                                                                                                                                                                                 Pop Gun War, Volume 1: Gift      18.97   2001.335       1         1
 
-QUERY 3 - Rating distribution
-----------------------------------------------------------------------
-SQL:
-SELECT rating, COUNT(*) AS book_count
-        FROM books
-        GROUP BY rating
-        ORDER BY rating;
 
-OUTPUT:
- rating  book_count
-      1          24
-      2          24
-      3          18
-      4          22
-      5          13
+================================================================================
+Query 3
+================================================================================
+SELECT
+    title,
+    rating,
+    price_inr
+FROM books
+WHERE rating IN (4, 5)
+ORDER BY rating DESC, price_inr DESC
+LIMIT 10;
 
-======================================================================
+--- RESULT ---
+                                                                                                                                                                                                       title  rating  price_inr
+                                                                                                                                                                     A Flight of Arrows (The Pathfinders #2)       5   5858.415
+                                                                                                                                    The Bachelor Girl's Guide to Murder (Herringford and Watts Mysteries #1)       5   5517.650
+                                                                                                                                                     Scott Pilgrim's Precious Little Life (Scott Pilgrim #1)       5   5516.595
+                                                                                                                                                                      A Time of Torment (Charlie Parker #14)       5   5100.925
+                                                                                                                                                                                                The Red Tent       5   3762.130
+                                                                                                                                                                                                Mrs. Houdini       5   3191.375
+At The Existentialist Café: Freedom, Being, and apricot cocktails with: Jean-Paul Sartre, Simone de Beauvoir, Albert Camus, Martin Heidegger, Edmund Husserl, Karl Jaspers, Maurice Merleau-Ponty and others       5   3157.615
+                                                                                                                                                                                       The Passion of Dolssa       5   2987.760
+                                                                                                                                                                          1,000 Places to See Before You Die       5   2751.440
+                                                                                                                                           What Happened on Beale Street (Secrets of the South Mysteries #2)       5   2676.535
 
-QUERY 4 - Top 5 most expensive books
-----------------------------------------------------------------------
-SQL:
-SELECT b.title,
-               b.price_gbp,
-               b.price_inr,
-               b.rating,
-               c.category_name
-        FROM books b
-        JOIN categories c
-            ON b.category_id = c.category_id
-        ORDER BY b.price_inr DESC
-        LIMIT 5;
 
-OUTPUT:
+================================================================================
+Query 4
+================================================================================
+SELECT
+    b.title,
+    b.price_gbp,
+    b.price_inr,
+    b.rating,
+    c.category_name
+FROM books b
+JOIN categories c
+    ON b.category_id = c.category_id
+ORDER BY b.price_inr DESC
+LIMIT 5;
+
+--- RESULT ---
                                        title  price_gbp  price_inr  rating category_name
                Boar Island (Anna Pigeon #19)      59.48   6275.140       3       Mystery
                                      Candide      58.63   6185.465       3      Classics
@@ -84,31 +144,27 @@ The Death of Humanity: and the Case for Life      58.11   6130.605       4    Ph
                                  Animal Farm      57.22   6036.710       3      Classics
             A Year in Provence (Provence #1)      56.88   6000.840       4        Travel
 
-======================================================================
 
-QUERY 5 - Category price aggregation
-----------------------------------------------------------------------
-SQL:
-SELECT c.category_name,
-               COUNT(*) AS book_count,
-               MIN(b.price_inr) AS min_price_inr,
-               MAX(b.price_inr) AS max_price_inr,
-               ROUND(AVG(b.price_inr), 2) AS avg_price_inr
-        FROM books b
-        JOIN categories c
-            ON b.category_id = c.category_id
-        WHERE b.price_inr BETWEEN 1000 AND 7000
-        GROUP BY c.category_name
-        ORDER BY avg_price_inr DESC;
+================================================================================
+Query 5
+================================================================================
+SELECT
+    c.category_name,
+    COUNT(b.book_id) AS book_count,
+    ROUND(MIN(b.price_inr), 2) AS minimum_price_inr,
+    ROUND(MAX(b.price_inr), 2) AS maximum_price_inr,
+    ROUND(AVG(b.price_inr), 2) AS average_price_inr
+FROM categories c
+JOIN books b
+    ON c.category_id = b.category_id
+GROUP BY c.category_id, c.category_name
+ORDER BY average_price_inr DESC;
 
-OUTPUT:
-     category_name  book_count  min_price_inr  max_price_inr  avg_price_inr
-            Travel          11       2448.655       6000.840        4198.32
-          Classics          19       1563.510       6185.465        3855.53
-Historical Fiction          20       1753.410       5860.525        3732.48
-        Philosophy          11       1681.670       6130.605        3540.39
-    Sequential Art          20       1071.880       5763.465        3473.01
-           Mystery          20       1127.795       6275.140        3459.77
-
-======================================================================
-
+--- RESULT ---
+     category_name  book_count  minimum_price_inr  maximum_price_inr  average_price_inr
+            Travel          11            2448.66            6000.84            4198.32
+          Classics          19            1563.51            6185.47            3855.53
+Historical Fiction          20            1753.41            5860.52            3732.48
+        Philosophy          11            1681.67            6130.60            3540.39
+    Sequential Art          20            1071.88            5763.47            3473.01
+           Mystery          20            1127.79            6275.14            3459.77

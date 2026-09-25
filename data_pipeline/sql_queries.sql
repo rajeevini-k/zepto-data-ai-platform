@@ -4,41 +4,41 @@
 -- Required SQL Analysis Queries
 -- ============================================================
 
--- Query 1: Book count by category
--- Demonstrates GROUP BY and JOIN.
+
+-- Query 1: Distinct categories
+-- Demonstrates SELECT, DISTINCT, and ORDER BY.
+SELECT DISTINCT
+    category_name
+FROM categories
+ORDER BY category_name;
+
+
+-- Query 2: Books in a price range
+-- Demonstrates WHERE and BETWEEN.
 SELECT
-    c.category_name,
-    COUNT(b.book_id) AS book_count
-FROM categories c
-JOIN books b
-    ON c.category_id = b.category_id
-GROUP BY c.category_id, c.category_name
-ORDER BY book_count DESC;
-
-
--- Query 2: Average price by category
--- Demonstrates AVG aggregation and GBP/INR analysis.
-SELECT
-    c.category_name,
-    ROUND(AVG(b.price_inr), 2) AS average_price_inr
-FROM categories c
-JOIN books b
-    ON c.category_id = b.category_id
-GROUP BY c.category_id, c.category_name
-ORDER BY average_price_inr DESC;
-
-
--- Query 3: Rating distribution
--- Demonstrates GROUP BY over the rating field.
-SELECT
+    title,
+    price_gbp,
+    price_inr,
     rating,
-    COUNT(*) AS book_count
+    in_stock
 FROM books
-GROUP BY rating
-ORDER BY rating;
+WHERE price_inr BETWEEN 2000 AND 5000
+ORDER BY price_inr DESC;
 
 
--- Query 4: Top 5 most expensive books
+-- Query 3: Books with selected ratings
+-- Demonstrates WHERE and IN.
+SELECT
+    title,
+    rating,
+    price_inr
+FROM books
+WHERE rating IN (4, 5)
+ORDER BY rating DESC, price_inr DESC
+LIMIT 10;
+
+
+-- Query 4: Top 5 most expensive books by category
 -- Demonstrates JOIN, ORDER BY, and LIMIT.
 SELECT
     b.title,
@@ -54,7 +54,7 @@ LIMIT 5;
 
 
 -- Query 5: Category-level price aggregation
--- Demonstrates COUNT, MIN, MAX, AVG and GROUP BY.
+-- Demonstrates JOIN, COUNT, MIN, MAX, AVG, GROUP BY, and ORDER BY.
 SELECT
     c.category_name,
     COUNT(b.book_id) AS book_count,
