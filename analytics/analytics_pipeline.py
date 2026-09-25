@@ -140,6 +140,11 @@ print("Fallback shape:", pd.read_csv(fallback_path).shape)
 
 
 # ============================================================
+# Explicit missing-value thresholds used by the cleaning rules.
+MISSING_DROP_ROW_THRESHOLD = 0.05
+MISSING_MEDIAN_MAX_THRESHOLD = 0.30
+MISSING_DROP_COLUMN_THRESHOLD = 0.50
+
 # 3. MISSING-VALUE PROFILING
 # ============================================================
 
@@ -450,6 +455,20 @@ for column in ["age", "fare"]:
         standardized.std()
     )
 
+    # Explicit z-score sanity check.
+    # z = (x - mean) / standard deviation
+    zscore_values = (
+        (standardized - standardized.mean())
+        / standardized.std(ddof=1)
+    )
+
+    zscore_mean = float(zscore_values.mean())
+    zscore_std = float(zscore_values.std(ddof=1))
+
+    print(
+        "Z-score sanity check:",
+        f"mean={zscore_mean:.6f}, std={zscore_std:.6f}"
+    )
 
 # ============================================================
 # 9. CLASSIFICATION DATA

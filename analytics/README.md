@@ -104,7 +104,7 @@ analytics/titanic_clean.csv
 
 ---
 
-# 3. Exploratory Data Analysis
+# 3. Exploratory Data Analysis (EDA)
 
 ## 3.1 Fare statistics
 
