@@ -1,0 +1,2 @@
+Model,Target,MAE,RMSE,R2,Adjusted_R2,Test_Rows,Transformed_Predictors
+Random Forest Regression,fare,16.816691016748695,44.277088375008866,0.3683222006519634,0.2574169381710104,155,23
